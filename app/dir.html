@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="folders"></div>
+        <div id="files"></div>
+        <script>
+            function GetQueryString(paraPart,name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = paraPart.substr(1).match(reg);
+                if (r != null) return unescape(r[2]); return null;
+            }
+            var currentDir=GetQueryString(window.location.search,"dir");
+            $.get("/api/dir?dir="+currentDir,function(data,status){
+                console.log(data);
+                for (var file of data)
+                {
+                    if (file.type==4)
+                        $('#folders').append("<div class=\"folder\"><a href=\"/dir.html?dir="+currentDir+file.name+"/\">"+file.name+"</a></div>")
+                    else
+                        $('#files').append("<div class=\"folder\"><a href=\"/file?file="+currentDir+file.name+"\">"+file.name+"</a></div>")
+ 
+                }
+            });
+        </script>
+    </body>
+</html>

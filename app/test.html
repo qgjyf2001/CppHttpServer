@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    </head>
+    <body>
+        <script>
+           $.post("/test",{data:"123"},function(data,status){console.log(data)});
+       /*     var data = {};
+		
+	data["param1"] = "val1";
+	data["data"] = 123;
+		
+	$.ajax({
+		url:'/test',
+		type:'POST',
+		dataType:'json',
+		contentType:'application/json;charset=UTF-8',
+		data:JSON.stringify(data),
+		success:function(data, status){
+			console.log(data);
+		}
+	});*/
+        </script>
+    </body>
+</html>
