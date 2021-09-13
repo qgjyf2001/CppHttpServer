@@ -69,6 +69,7 @@ void tcpServer::startForever()
         else
         {
             char buf[MAXLINE];
+            bool check=false;
             for (int i=1;i<maxClient;i++)
             {
                 if (clientfd[i].fd<0)
@@ -82,6 +83,7 @@ void tcpServer::startForever()
                         clientfd[i].fd=-1;
                         continue;
                     }
+                    check=true;
                     httpServer.doHttp(&clientfd[i].fd,std::string(buf,n));                    
                 }
             }

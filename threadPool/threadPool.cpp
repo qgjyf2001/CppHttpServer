@@ -14,7 +14,7 @@ threadPool::threadPool(int threadNum)
         finished.push_back(new std::mutex());
     }
     args.reserve(threadNum);
-    f.reserve(threadNum);
+    f.resize(threadNum);
     for (int i=0;i<threadNum;i++)
         threads.push_back(threadLoop(i));
 }

@@ -26,7 +26,7 @@ int main()
     auto *handler=new httpHandler();
     tcpServer *server=new tcpServer(handler,8080,"0.0.0.0");
     auto *web=new webServer(handler);
-    web->addHttpHook();
+    web->addHttpHook("/","./app/build/");
     handler->setGetHandler("/file",[](httpRequestType &request,std::map<std::string,std::string>&params){
         auto response=http200BasicResponse();
         response.setFile("./"+params["file"]);

@@ -1,11 +1,7 @@
 #include <iostream>
-#include <map>
-#include <fstream>
-using namespace std;
+#include <thread>
 
 int main()
 {
-std::string t="12345";
-	std::cout<<t.substr(2);
-	return 0;
+	
 }

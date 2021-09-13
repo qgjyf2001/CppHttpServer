@@ -27,7 +27,8 @@ private:
         {"jpg","image/jpeg"},
         {"jpeg","image/jpeg"},
         {"png","image/png"},
-        {"txt","text/plain"}};
+        {"txt","text/plain"},
+        {"svg","text/xml"}};
 public:    
     int fd=-1;
     unsigned long fileSize;

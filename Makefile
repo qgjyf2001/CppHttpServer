@@ -37,6 +37,8 @@ main.o:main.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 main:main.o $(THREADPOOLTARGET) $(TCPTARGET) $(HTTPTARGET) $(WEBSERVERTARGET) $(FILESYSTEMTARGET) $(JSONPARSERTARGET) $(SAFEVECTORTARGET)
 	$(CC) -o $@ $^ -lpthread
+web:
+	cd ./app&&yarn build
 clean:
 	find . -name '*.o' -type f -print -exec rm -rf {} \;
 	rm main
