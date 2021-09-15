@@ -4,6 +4,7 @@
 #include "webServer.h"
 #include "jsonParser.h"
 #include "safeVector.h"
+#include "tools/zipFolder.h"
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -30,6 +31,27 @@ int main()
     handler->setGetHandler("/file",[](httpRequestType &request,std::map<std::string,std::string>&params){
         auto response=http200BasicResponse();
         response.setFile("./"+params["file"]);
+        return response;
+    });
+    handler->setGetHandler("/folder",[](httpRequestType &request,std::map<std::string,std::string>& params){
+        auto response=http200BasicResponse();
+        std::string fileName="./tmp/";
+        for (int i=0;i<10;i++)
+            fileName+='a'+rand()%26;
+        fileName+=".zip";
+        auto zipContext=zipFolder(fileName);
+        zipContext.compressFolder("./"+params["folder"]);
+        zipContext.save();
+        response.setFile(fileName);
+        remove(fileName.c_str());
+        return response;
+    });
+    handler->setGetHandler("/api/remove",[](httpRequestType &request,std::map<std::string,std::string> &params){
+        auto response=http200BasicResponse();
+        std::string *result=new std::string(remove(("./"+params["file"]).c_str())?"failed":"success");
+        JsonParser json;
+        json.set("status",new JsonParser(result,JsonParser::STRING));
+        response.setJson(json);
         return response;
     });
     handler->setGetHandler("/api/dir",[](httpRequestType &request,std::map<std::string,std::string> &params)->httpResponse{

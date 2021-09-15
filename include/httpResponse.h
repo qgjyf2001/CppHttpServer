@@ -84,7 +84,6 @@ public:
         this->setContentType("application/json");
         headers["Content-Length"]=std::to_string(text.length());
     }
-    //to-do: zero-copy implementation
     void setFileContent(std::string fileExtention,int length)
     {
         if (auto it=fileMapping.find(fileExtention);it==fileMapping.end())

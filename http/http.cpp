@@ -39,7 +39,7 @@ http::http(httpHandler *handler,int maxThreads)
 }
 void http::doHttp(int* sockfd,std::string httpRequest)
 {
-    pool->addThread([=](void *args){               
+    pool->addThread([=](void *args){        
         httpRequestType request;
         try
         {

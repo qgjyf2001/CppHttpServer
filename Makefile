@@ -18,12 +18,16 @@ JSONPARSER=./json
 JSONPARSERTARGET=$(JSONPARSER)/jsonParser.o
 SAFEVECTOR=./safeVector
 SAFEVECTORTARGET=$(SAFEVECTOR)/safeVector.o
+TOOLS=./tools
+TOOLSTARGET=$(TOOLS)/zipFolder.o
 
 $(THREADPOOLTARGET):$(THREADPOOL)/threadPool.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 $(TCPTARGET):$(TCP)/tcpServer.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 $(HTTP)/%.o:$(HTTP)/%.cpp
+	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
+$(TOOLS)/%.o:$(TOOLS)/%.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 $(WEBSERVERTARGET):$(WEBSERVER)/webServer.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
@@ -35,8 +39,8 @@ $(SAFEVECTORTARGET):$(SAFEVECTOR)/safeVector.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 main.o:main.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
-main:main.o $(THREADPOOLTARGET) $(TCPTARGET) $(HTTPTARGET) $(WEBSERVERTARGET) $(FILESYSTEMTARGET) $(JSONPARSERTARGET) $(SAFEVECTORTARGET)
-	$(CC) -o $@ $^ -lpthread
+main:main.o $(THREADPOOLTARGET) $(TCPTARGET) $(HTTPTARGET) $(WEBSERVERTARGET) $(FILESYSTEMTARGET) $(JSONPARSERTARGET) $(SAFEVECTORTARGET) $(TOOLSTARGET)
+	$(CC) -o $@ $^ -lpthread -lminizip
 web:
 	cd ./app&&yarn build
 clean:

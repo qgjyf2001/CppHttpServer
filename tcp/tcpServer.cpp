@@ -3,6 +3,7 @@
 #include "httpParser.h"
 tcpServer::tcpServer(httpHandler* handler,int port,std::string ipAddress,int maxClient)
 {
+    signal(SIGPIPE , SIG_IGN);
     this->port=port;
     this->ipAddress=ipAddress;
     this->maxClient=maxClient;
@@ -69,7 +70,6 @@ void tcpServer::startForever()
         else
         {
             char buf[MAXLINE];
-            bool check=false;
             for (int i=1;i<maxClient;i++)
             {
                 if (clientfd[i].fd<0)
@@ -83,7 +83,6 @@ void tcpServer::startForever()
                         clientfd[i].fd=-1;
                         continue;
                     }
-                    check=true;
                     httpServer.doHttp(&clientfd[i].fd,std::string(buf,n));                    
                 }
             }
