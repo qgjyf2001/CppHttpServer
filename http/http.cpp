@@ -47,21 +47,60 @@ void http::doHttp(int* sockfd,std::string httpRequest)
 {
     pool->addThread([=](void *args){        
         httpRequestType request;
-        try
+        if (auto &now=uncompleted[*sockfd];now.second!=0)
         {
-            request=httpParser::parse(httpRequest);
+               now.second-=httpRequest.length();
+               if (now.second>0)
+               {
+                   now.first+=httpRequest;
+                   return;
+               }
+                else
+                {
+                    now.second=0;
+                    try
+                    {
+                        request=httpParser::parse(now.first+httpRequest);
+                    }
+                    catch(const std::exception& e)
+                    {
+                        httpResponse resp=http400BasicResponse();
+                        std::string badRequest=resp.toString();
+                        write(*sockfd,badRequest.c_str(),badRequest.length());
+                        if (!resp.getConnection())
+                        {
+                            close(*sockfd);
+                            *sockfd=-1;
+                        }
+                        uncompleted.erase(*sockfd);
+                        return;
+                    }
+                    uncompleted.erase(*sockfd);
+                }
         }
-        catch(const std::exception& e)
+        else 
         {
-            httpResponse resp=http400BasicResponse();
-            std::string badRequest=resp.toString();
-            write(*sockfd,badRequest.c_str(),badRequest.length());
-            if (!resp.getConnection())
+            try
             {
-                close(*sockfd);
-                *sockfd=-1;
+                request=httpParser::parse(httpRequest);
+                if (auto len1=std::atoi(request["Content-Length"].c_str()),len2=(int)request["text"].length();len1>len2)
+                {
+                    uncompleted[*sockfd]=std::make_pair(httpRequest,len1-len2);
+                    return;
+                }
             }
-            return;
+            catch(const std::exception& e)
+            {
+                httpResponse resp=http400BasicResponse();
+                std::string badRequest=resp.toString();
+                write(*sockfd,badRequest.c_str(),badRequest.length());
+                if (!resp.getConnection())
+                {
+                    close(*sockfd);
+                    *sockfd=-1;
+                }
+                return;
+            }
         }
         auto result=handler->handleRequest(request);
         auto responseText=result.toString();

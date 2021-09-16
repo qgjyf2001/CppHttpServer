@@ -9,6 +9,7 @@
 
 #include <sys/sendfile.h>
 #include <signal.h>
+#include <map>
 class http
 {
 private:
@@ -29,6 +30,7 @@ private:
     httpHandler* handler;
     std::thread sendThread;
     safeVector<fileStruct*> vec;
+    std::map<int,std::pair<std::string,int>> uncompleted;
 public:
     http(httpHandler* handler,int maxThreads=4);
     void doHttp(int* sockfd,std::string httpRequest);
