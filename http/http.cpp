@@ -16,7 +16,13 @@ http::http(httpHandler *handler,int maxThreads)
                 auto &&[fd,sockfd,fileSize,offset]=*vec[index];
                 if (offset+sendLength<fileSize)
                 {
-                    sendfile(sockfd,fd,&offset,sendLength);
+                    if (sendfile(sockfd,fd,&offset,sendLength)<sendLength)
+                    {
+                        delete vec[index];
+                        vec.erase(std::begin(vec)+index);
+                        close(fd);
+                        continue;
+                    }
                     index++;
                 }
                 else

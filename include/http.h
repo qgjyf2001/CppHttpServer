@@ -24,7 +24,7 @@ private:
         long int offset;
     };
     /* data */
-    int sendLength=1024*1024;
+    int sendLength=1024*1024*10;
     threadPool* pool;
     httpHandler* handler;
     std::thread sendThread;
