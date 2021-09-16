@@ -59,7 +59,7 @@ void http::doHttp(int* sockfd,std::string httpRequest)
             if (!resp.getConnection())
             {
                 close(*sockfd);
-                *sockfd=1;
+                *sockfd=-1;
             }
             return;
         }
