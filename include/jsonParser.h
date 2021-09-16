@@ -96,6 +96,18 @@ public:
             throw std::invalid_argument("invalid type");
         json[key]=value;
     }
+    void set(std::string key,int num)
+    {
+        if (this->type!=OBJECT)
+            throw std::invalid_argument("invalid type");
+        json[key]=new JsonParser(new std::string(std::to_string(num)),INT);
+    }
+    void set(std::string key,std::string &&str)
+    {
+        if (this->type!=OBJECT)
+            throw std::invalid_argument("invalid type");
+        json[key]=new JsonParser(new std::string(str),STRING);
+    }
     ~JsonParser()
     {
         freeAll();

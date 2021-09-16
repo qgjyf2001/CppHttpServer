@@ -4,6 +4,7 @@
 #include "webServer.h"
 #include "jsonParser.h"
 #include "safeVector.h"
+
 #include "tools/zipFolder.h"
 
 #include <unistd.h>
@@ -48,9 +49,8 @@ int main()
     });
     handler->setGetHandler("/api/remove",[](httpRequestType &request,std::map<std::string,std::string> &params){
         auto response=http200BasicResponse();
-        std::string *result=new std::string(remove(("./"+params["file"]).c_str())?"failed":"success");
         JsonParser json;
-        json.set("status",new JsonParser(result,JsonParser::STRING));
+        json.set("status",remove(("./"+params["file"]).c_str())?"failed":"success");
         response.setJson(json);
         return response;
     });
@@ -67,8 +67,8 @@ int main()
         {    
             while (ptr!=NULL){
                 JsonParser* json=new JsonParser;
-                json->set("name",new JsonParser(new std::string(ptr->d_name),JsonParser::STRING));
-                json->set("type",new JsonParser(ptr->d_type));
+                json->set("name",ptr->d_name);
+                json->set("type",ptr->d_type);
                 jsonArray.add(json);
                 ptr=readdir(dir);
             }
@@ -87,13 +87,13 @@ int main()
         JsonParser json;
         if (content.type==httpPostRequestContent::JSON)
         {
-            json.set("type",new JsonParser(new std::string("json"),JsonParser::STRING));
-            json.set("data",new JsonParser(new std::string((*content.json)["data"]),JsonParser::STRING));
+            json.set("type","json");
+            json.set("data",(*content.json)["data"]);
         }
         if (content.type==httpPostRequestContent::FORM)
         {
-            json.set("type",new JsonParser(new std::string("form"),JsonParser::STRING));
-            json.set("data",new JsonParser(new std::string(content.form["data"]),JsonParser::STRING));
+            json.set("type","form");
+            json.set("data",std::string(content.form["data"]));
         }
         response.setJson(json);
         return response;
