@@ -21,21 +21,22 @@ std::map<std::string,std::string> httpHandler::getParams(std::string &params,int
 }
 httpResponse httpHandler::handleRequest(httpRequestType request)
 {
-    httpResponse response;        
+    httpResponse response;
+    auto& url=request["url"];
+    int i;
+    auto len=url.length();
+    std::map<std::string,std::string> requestParam;
+    for (i=len-1;i>=0;i--)
+        if (url[i]=='?')
+            break;
+    if (i>0)
+    {
+        requestParam=getParams(url,i);
+        url=url.substr(0,i);
+    }        
     if (auto &method=request["method"];method=="GET")
     {
-        auto& url=request["url"];
-        int i;
-        auto len=url.length();
-        std::map<std::string,std::string> requestParam;
-        for (i=len-1;i>=0;i--)
-            if (url[i]=='?')
-                break;
-        if (i>0)
-        {
-            requestParam=getParams(url,i);
-            url=url.substr(0,i);
-        }
+        
         auto it=getHandlers.find(url);
         if (it==getHandlers.end())
         {
@@ -49,7 +50,6 @@ httpResponse httpHandler::handleRequest(httpRequestType request)
     }
     else if (method=="POST")
     {
-        auto &url=request["url"];
         auto it=postHandlers.find(url);
         auto &type=request["Content-Type"];
         auto content=httpPostRequestContent();
@@ -78,7 +78,7 @@ httpResponse httpHandler::handleRequest(httpRequestType request)
                     return http400BasicResponse();
                 }
             }
-            response=postHandlers[url](request,content);
+            response=postHandlers[url](request,content,requestParam);
             if (content.json!=NULL)
                 delete content.json;
         }

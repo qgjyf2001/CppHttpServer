@@ -1,7 +1,9 @@
 import React,{useState} from 'react';
-import { message,Button,Image ,Table} from 'antd';
+import { message,Button,Image ,Table,Upload} from 'antd';
 import ProList from '@ant-design/pro-list';
-import { DownloadOutlined,DeleteOutlined,FolderOutlined,FileOutlined} from '@ant-design/icons';
+import { DownloadOutlined,DeleteOutlined,FolderOutlined,FileOutlined,InboxOutlined} from '@ant-design/icons';
+const {Dragger}=Upload;
+
 const App =function (){ 
   const [loading,setLoading]=useState(true);
   const currentDir=GetQueryString(window.location.search,"dir");
@@ -11,7 +13,25 @@ const App =function (){
     var r = paraPart.substr(1).match(reg);
     if (r != null) return unescape(r[2]); return "";
 }
-
+const props = {
+  name: 'file',
+  multiple: true,
+  action: '/api/upload?folder='+currentDir,
+  onChange:(info:any)=> {
+    const { status } = info.file;
+    if (status !== 'uploading') {
+      //console.log(info.file, info.fileList);
+    }
+    if (status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully.`);
+    } else if (status === 'error') {
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  },
+  onDrop:(e:any)=>{
+    //console.log('Dropped files', e.dataTransfer.files);
+  },
+};
   if (loading)
   {
     fetch('/api/dir?dir='+currentDir,{
@@ -26,7 +46,17 @@ const App =function (){
     })
   }
   return (
-    
+    <>
+    <Dragger {...props}>
+    <p className="ant-upload-drag-icon">
+      <InboxOutlined />
+    </p>
+    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+    <p className="ant-upload-hint">
+      Support for a single or bulk upload. Strictly prohibit from uploading company data or other
+      band files
+    </p>
+  </Dragger>
     <ProList<any>
     onRow={(record: any) => {
       return {
@@ -87,6 +117,7 @@ const App =function (){
       }}
       
       />
+      </>
 );
   }
 export default App;

@@ -82,20 +82,20 @@ int main()
         return response;
 
     });
-    handler->setPostHandler("/test",[](httpRequestType &request,httpPostRequestContent& content){
+    handler->setPostHandler("/api/upload",[](httpRequestType &request,httpPostRequestContent& content,std::map<std::string,std::string>& getParams){
         auto response=http200BasicResponse();
         JsonParser json;
-        if (content.type==httpPostRequestContent::JSON)
+        json.set("status","success");
+        try
         {
-            json.set("type","json");
-            json.set("data",(*content.json)["data"]);
+            std::cout<<"content:\n"<<request["text"]<<std::endl;
+            std::cout<<"getParams:"<<getParams["folder"]<<std::endl;
         }
-        if (content.type==httpPostRequestContent::FORM)
+        catch(const std::exception& e)
         {
-            json.set("type","form");
-            json.set("data",std::string(content.form["data"]));
+            json.set("status","failed");
         }
-        response.setJson(json);
+        response.setJson((std::string)json);
         return response;
     });
     server->startForever();

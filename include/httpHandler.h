@@ -25,7 +25,7 @@ private:
     /* data */
     std::map<std::string,std::string> getParams(std::string& params,int offset);
     std::map<std::string,std::function<httpResponse(httpRequestType&,std::map<std::string,std::string>&)>> getHandlers;
-    std::map<std::string,std::function<httpResponse(httpRequestType&,httpPostRequestContent&)>> postHandlers; 
+    std::map<std::string,std::function<httpResponse(httpRequestType&,httpPostRequestContent&,std::map<std::string,std::string>&)>> postHandlers; 
 public:
     httpHandler(/* args */)=default;
     httpResponse handleRequest(httpRequestType request);
@@ -37,7 +37,7 @@ public:
     {
         getHandlers.erase(url);
     }
-    void setPostHandler(std::string url,std::function<httpResponse(httpRequestType&,httpPostRequestContent&)> handler)
+    void setPostHandler(std::string url,std::function<httpResponse(httpRequestType&,httpPostRequestContent&,std::map<std::string,std::string>&)> handler)
     {
         postHandlers[url]=handler;
     }
