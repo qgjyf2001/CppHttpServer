@@ -86,10 +86,15 @@ int main()
         auto response=http200BasicResponse();
         JsonParser json;
         json.set("status","success");
+        std::string path="./"+getParams["folder"];
         try
         {
-            std::cout<<"content:\n"<<request["text"]<<std::endl;
-            std::cout<<"getParams:"<<getParams["folder"]<<std::endl;
+            for (auto &&[fileName,fileContent]:content.files)
+            {
+                auto fp=fopen((path+fileName).c_str(),"w");
+                fwrite(fileContent.c_str(),fileContent.length(),1,fp);
+                fclose(fp);
+            }
         }
         catch(const std::exception& e)
         {

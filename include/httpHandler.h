@@ -9,11 +9,13 @@ struct httpPostRequestContent
     enum Type{
       JSON,
       FORM,
+      FILES,
       OTHER
     };
     Type type;
     std::map<std::string,std::string> form;
     JsonParser* json=NULL;
+    std::map<std::string,std::string> files;
     httpPostRequestContent(Type type=OTHER):type(type)
     {
 

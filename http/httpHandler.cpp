@@ -78,6 +78,40 @@ httpResponse httpHandler::handleRequest(httpRequestType request)
                     return http400BasicResponse();
                 }
             }
+            if (type.find("multipart/form-data")!=std::string::npos)
+            {
+                auto pos=type.find("boundary=");
+                auto boundary=type.substr(pos+9);
+                auto unknown=std::string("unknown");
+                int unknownNum=0;
+                auto &text=request["text"];
+                pos=text.find(boundary);
+                if (pos==std::string::npos)
+                    return http400BasicResponse();
+                while (text.find(boundary,pos+1)!=std::string::npos)
+                {
+                    auto pos1=text.find(boundary,pos+1);
+                    if (pos1==std::string::npos||text[pos1-1]!='-'||text[pos1-2]!='-')
+                        return http400BasicResponse();
+                    std::string fileName;
+                    auto filePosl=text.find("filename=\"",pos);
+                    if (filePosl==std::string::npos)
+                        fileName=unknown+std::to_string(unknownNum++);
+                    else
+                    {
+                        auto posl=filePosl+10;
+                        auto posr=text.find("\"",posl);
+                        if (posr==std::string::npos||posr>=pos1)
+                            return http400BasicResponse();
+                        fileName=text.substr(posl,posr-posl);
+                    }
+                    pos=text.find("\r\n\r\n",pos);
+                    content.type=httpPostRequestContent::FILES;
+                    content.files[fileName]=text.substr(pos+4,pos1-4-(pos+4));
+                    pos=pos1;
+                }
+                
+            }
             response=postHandlers[url](request,content,requestParam);
             if (content.json!=NULL)
                 delete content.json;
