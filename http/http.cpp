@@ -43,6 +43,10 @@ http::http(httpHandler *handler,int maxThreads)
         }
     });
 }
+void http::free(int sockfd)
+{
+    uncompleted.erase(sockfd);
+}
 void http::doHttp(int* sockfd,std::string httpRequest)
 {
     pool->addThread([=](void *args){        

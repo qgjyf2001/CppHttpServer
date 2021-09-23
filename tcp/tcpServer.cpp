@@ -79,6 +79,7 @@ void tcpServer::startForever()
                     auto n=read(clientfd[i].fd,buf,MAXLINE);
                     if (n<=0)
                     {
+                        httpServer.free(clientfd[i].fd);
                         close(clientfd[i].fd);
                         clientfd[i].fd=-1;
                         continue;

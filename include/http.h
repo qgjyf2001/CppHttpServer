@@ -34,6 +34,7 @@ private:
 public:
     http(httpHandler* handler,int maxThreads=4);
     void doHttp(int* sockfd,std::string httpRequest);
+    void free(int sockfd);
     void waitAll();
     ~http();
 };
