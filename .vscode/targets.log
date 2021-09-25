@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Sep 23 09:56:17 2021
+# Make data base, printed on Thu Sep 23 10:18:36 2021
 
 # Variables
 
@@ -121,7 +121,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2085
+GIO_LAUNCHED_DESKTOP_FILE_PID = 4843
 # automatic
 %F = $(notdir $%)
 # environment
@@ -179,7 +179,7 @@ HTTP = ./http
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-1f712d30-4695-4e73-9b53-8c94a9ab346c.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-01544470-d4ba-4e96-8a26-85d4963e52aa.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -278,7 +278,7 @@ TOOLS = ./tools
 LANG = C
 # environment
  
-VSCODE_PID = 2085
+VSCODE_PID = 4843
 # variable set hash-table stats:
 # Load=134/1024=13%, Rehash=0, Collisions=36/205=18%
 
@@ -288,11 +288,11 @@ VSCODE_PID = 2085
 
 # Directories
 
-# . (device 2051, inode 927226): 26 files, no impossibilities.
+# . (device 2051, inode 927226): 25 files, no impossibilities.
 # http (device 2051, inode 927239): No files, no impossibilities so far.
 # tools (device 2051, inode 933897): No files, no impossibilities so far.
 
-# 26 files, no impossibilities in 3 directories.
+# 25 files, no impossibilities in 3 directories.
 
 # Implicit Rules
 
@@ -505,12 +505,12 @@ threadPool/threadPool.cpp:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 55 / storage = 662 B / avg = 12 B
-# current buf: size = 8162 B / used = 662 B / count = 55 / avg = 12 B
+# strcache buffers: 1 (0) / strings = 54 / storage = 656 B / avg = 12 B
+# current buf: size = 8162 B / used = 656 B / count = 54 / avg = 12 B
 
-# strcache performance: lookups = 83 / hit rate = 33%
+# strcache performance: lookups = 82 / hit rate = 34%
 # hash-table stats:
-# Load=55/8192=1%, Rehash=0, Collisions=1/83=1%
-# Finished Make data base on Thu Sep 23 09:56:17 2021
+# Load=54/8192=1%, Rehash=0, Collisions=1/82=1%
+# Finished Make data base on Thu Sep 23 10:18:36 2021
 
  
