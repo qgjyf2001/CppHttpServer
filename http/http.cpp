@@ -45,12 +45,16 @@ http::http(httpHandler *handler,int maxThreads)
 }
 void http::free(int sockfd)
 {
-    uncompleted.erase(sockfd);
+    if (uncompleted.find(sockfd)!=uncompleted.end())
+        uncompleted.erase(sockfd);
 }
 void http::doHttp(int* sockfd,std::string httpRequest)
 {
-    pool->addThread([=](void *args){        
+    pool->addThread([=](void *args){     
+        signal(SIGPIPE , SIG_IGN);
         httpRequestType request;
+        if (uncompleted.find(*sockfd)!=uncompleted.end())
+        {
         if (auto &now=uncompleted[*sockfd];now.second!=0)
         {
                now.second-=httpRequest.length();
@@ -82,11 +86,12 @@ void http::doHttp(int* sockfd,std::string httpRequest)
                     uncompleted.erase(*sockfd);
                 }
         }
+    }
         else 
         {
             try
             {
-                request=httpParser::parse(httpRequest);
+                request=httpParser::parse(httpRequest);       
                 if (auto len1=std::atoi(request["Content-Length"].c_str()),len2=(int)request["text"].length();len1>len2)
                 {
                     uncompleted[*sockfd]=std::make_pair(httpRequest,len1-len2);
