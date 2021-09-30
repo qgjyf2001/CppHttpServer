@@ -15,5 +15,4 @@ make
 
 ## 还没完成的部分
 假如进行压力测试的话，请把httpResponse.h里的connection改成false（因为这里懒得写了）
-
-
+![压力测试](https://www.github.com/qgjyf2001/CppHttpServer/blob/master/pressureTest.png)
