@@ -7,11 +7,6 @@ JsonParser::JsonParser(std::string* message,Type type,bool checkEnd,std::string:
             this->messsageInt=std::atoi(message->c_str());
             return;
         }
-        if (type==STRING)
-        {
-            this->messageStr=message;
-            return;
-        }
         auto begin=!checkEnd?*beginPtr:message->begin();
         auto end=message->end()-1;
         moveForwardPtr<' ','\n'>(begin,message->end());
@@ -64,9 +59,9 @@ JsonParser::JsonParser(std::string* message,Type type,bool checkEnd,std::string:
                     }
                     auto contentTail=begin;
                     if (this->type==ARRAY)
-                        jsonArray.push_back(new JsonParser(new std::string(contentHead,contentTail),STRING));
+                        jsonArray.push_back(JsonParser(std::make_shared<std::string>(std::string(contentHead,contentTail))));
                     else
-                        json[std::string(head,tail)]=new JsonParser(new std::string(contentHead,contentTail),STRING);
+                        json[std::string(head,tail)]=JsonParser(std::make_shared<std::string>(std::string(contentHead,contentTail)));
                     begin++;
                     if (((*begin==']'&&this->type==ARRAY)||(*begin=='}'&&this->type==OBJECT))&&!checkEnd)
                     {
@@ -76,7 +71,7 @@ JsonParser::JsonParser(std::string* message,Type type,bool checkEnd,std::string:
                 }
                 else if (*begin=='{')
                 {
-                    JsonParser* newJson=new JsonParser(message,OBJECT,false,&begin,&begin);
+                    JsonParser newJson=JsonParser(message,OBJECT,false,&begin,&begin);
                     if (this->type==ARRAY)
                         jsonArray.push_back(newJson);
                     else
@@ -84,7 +79,7 @@ JsonParser::JsonParser(std::string* message,Type type,bool checkEnd,std::string:
                 }
                 else if (*begin=='[')
                 {
-                    JsonParser* newJson=new JsonParser(message,OBJECT,false,&begin,&begin);
+                    JsonParser newJson=JsonParser(message,OBJECT,false,&begin,&begin);
                     if (this->type==ARRAY)
                         jsonArray.push_back(newJson);
                     else
@@ -95,9 +90,9 @@ JsonParser::JsonParser(std::string* message,Type type,bool checkEnd,std::string:
                     moveForwardPtr<'0','1','2','3','4','5','6','7','8','9'>(begin,end);
                     auto contentTail=begin;
                     if (this->type==ARRAY)
-                        jsonArray.push_back(new JsonParser(new std::string(contentHead,contentTail),INT));
+                        jsonArray.push_back(JsonParser(new std::string(contentHead,contentTail),INT));
                     else
-                        json[std::string(head,tail)]=new JsonParser(new std::string(contentHead,contentTail),INT);
+                        json[std::string(head,tail)]=JsonParser(new std::string(contentHead,contentTail),INT);
                 }
                 moveForwardPtr<' ','\n'>(begin,end);
                 if (*begin==',')

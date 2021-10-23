@@ -1,7 +1,8 @@
 #ifndef SAFEVECTOR_H
-#define SAVEVECTOR_H
+#define SAFEVECTOR_H
 #include <vector>
 #include <mutex>
+#include <stack>
 template <typename T>
 class safeVector:public std::vector<T>
 {
@@ -22,6 +23,13 @@ public:
         std::lock_guard<std::mutex> lck(lock);
         std::vector<T>::push_back(value);
     }
+    T pop()
+    {
+        std::lock_guard<std::mutex> lck(lock);
+        auto value=std::vector<T>::back();
+        std::vector<T>::pop_back();
+        return value;
+    }
     size_t size()
     {
         std::lock_guard<std::mutex> lck(lock);
@@ -34,7 +42,6 @@ public:
     }
     ~safeVector()
     {
-        std::vector<T>::~vector();
     };
 };
 #endif

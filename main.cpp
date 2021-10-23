@@ -4,6 +4,7 @@
 #include "webServer.h"
 #include "jsonParser.h"
 #include "safeVector.h"
+#include "mysqlHelper.h"
 
 #include "tools/zipFolder.h"
 
@@ -50,7 +51,7 @@ int main()
     handler->setGetHandler("/api/remove",[](httpRequestType &request,std::map<std::string,std::string> &params){
         auto response=http200BasicResponse();
         JsonParser json;
-        json.set("status",remove(("./"+params["file"]).c_str())?"failed":"success");
+        json["status"]=remove(("./"+params["file"]).c_str())?"failed":"success";
         response.setJson(json);
         return response;
     });
@@ -66,9 +67,9 @@ int main()
         try
         {    
             while (ptr!=NULL){
-                JsonParser* json=new JsonParser;
-                json->set("name",ptr->d_name);
-                json->set("type",ptr->d_type);
+                JsonParser json;
+                json["name"]=ptr->d_name;
+                json["type"]=ptr->d_type;
                 jsonArray.add(json);
                 ptr=readdir(dir);
             }
@@ -85,7 +86,7 @@ int main()
     handler->setPostHandler("/api/upload",[](httpRequestType &request,httpPostRequestContent& content,std::map<std::string,std::string>& getParams){
         auto response=http200BasicResponse();
         JsonParser json;
-        json.set("status","success");
+        json["status"]="success";
         std::string path="./"+getParams["folder"];
         try
         {
@@ -98,7 +99,7 @@ int main()
         }
         catch(const std::exception& e)
         {
-            json.set("status","failed");
+            json["status"]="failed";
         }
         response.setJson((std::string)json);
         return response;

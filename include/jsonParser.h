@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <functional>
+#include <memory>
 class JsonParser
 {
 public:
@@ -18,9 +19,24 @@ public:
         this->messsageInt=num;
         this->type=INT;
     }
+    JsonParser& operator=(std::string str)
+    {
+        *this=JsonParser(std::make_shared<std::string>(str));
+        return *this;
+    }
+    JsonParser& operator=(int num)
+    {
+        *this=JsonParser(num);
+        return *this;
+    }
+    JsonParser(std::shared_ptr<std::string> str)
+    {
+        this->messageStr=str;
+        this->type=STRING;
+    }
     JsonParser &operator [](std::string index)
     {
-        return *json[index];
+        return json[index];
     }
     std::string toString()
     {
@@ -39,7 +55,7 @@ public:
         if (this->type!=ARRAY)
             JSONPanic("illegal operation");
         for (auto obj:jsonArray)
-            function(*obj);
+            function(obj);
     }
     Type type;
     operator std::string()
@@ -64,9 +80,9 @@ public:
             for (auto &&it:json)
             {
                 if (result=="{")
-                    result+="\""+it.first+"\":"+(std::string)*(it.second);
+                    result+="\""+it.first+"\":"+(std::string)(it.second);
                 else
-                    result+=std::string(",")+"\""+it.first+"\":"+(std::string)*(it.second);
+                    result+=std::string(",")+"\""+it.first+"\":"+(std::string)(it.second);
             }
             result+="}";
             return result;
@@ -76,37 +92,19 @@ public:
     {
         if (this->type!=ARRAY)
             throw std::invalid_argument("invalid type");
-        jsonArray.push_back(new JsonParser(new std::string(std::to_string(num)),INT));
+        jsonArray.push_back(JsonParser(new std::string(std::to_string(num)),INT));
     }
     void add(std::string str)
     {
         if (this->type!=ARRAY)
             throw std::invalid_argument("invalid type");
-        jsonArray.push_back(new JsonParser(new std::string(str),STRING));
+        jsonArray.push_back(JsonParser(new std::string(str),STRING));
     }
-    void add(JsonParser *data)
+    void add(JsonParser data)
     {
         if (this->type!=ARRAY)
             throw std::invalid_argument("invalid type");
         jsonArray.push_back(data);
-    }
-    void set(std::string key,JsonParser* value)
-    {
-        if (this->type!=OBJECT)
-            throw std::invalid_argument("invalid type");
-        json[key]=value;
-    }
-    void set(std::string key,int num)
-    {
-        if (this->type!=OBJECT)
-            throw std::invalid_argument("invalid type");
-        json[key]=new JsonParser(new std::string(std::to_string(num)),INT);
-    }
-    void set(std::string key,std::string &&str)
-    {
-        if (this->type!=OBJECT)
-            throw std::invalid_argument("invalid type");
-        json[key]=new JsonParser(new std::string(str),STRING);
     }
     ~JsonParser()
     {
@@ -127,25 +125,16 @@ private:
     }
     void freeAll()
     {
-        if (this->type==OBJECT)
-        {
-            for (auto &&it:json)
-                delete it.second;
-        }
-        if (this->type==ARRAY)
-            for (auto &&it:jsonArray)
-                delete it;
-        if (this->type==STRING)
-            delete messageStr;
+        
     }
     void JSONPanic(std::string description)
     {
         freeAll();
         throw std::invalid_argument(description);
     }
-    std::map<std::string,JsonParser*> json;
-    std::vector<JsonParser*> jsonArray;
-    std::string* messageStr=nullptr;
+    std::map<std::string,JsonParser> json;
+    std::vector<JsonParser> jsonArray;
+    std::shared_ptr<std::string> messageStr;
     std::string emptyJSON="{}";
     int messsageInt;
 };

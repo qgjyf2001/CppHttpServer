@@ -1,0 +1,386 @@
+repy.pyc (Python 3.10)
+[Code]
+    File Name: challenge.py
+    Object Name: <module>
+    Arg Count: 0
+    Pos Only Arg Count: 0
+    KW Only Arg Count: 0
+    Locals: 0
+    Stack Size: 10
+    Flags: 0x00000040 (CO_NOFREE)
+    [Names]
+        '__import__'
+        'dataclass'
+        '\xe1\x85\xa0'
+        'bytes'
+        '\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0'
+        'getattr'
+        '\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0'
+        'input'
+        'I'
+        '\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0'
+        'list'
+        '\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0'
+        '\xe1\x85\xa0\xe1\x85\xa0'
+        '\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0'
+        'pop'
+        'R'
+        'len'
+        'enumerate'
+        'x'
+        'y'
+        'print'
+    [Var Names]
+    [Free Vars]
+    [Cell Vars]
+    [Constants]
+        'dataclasses'
+        [Code]
+            File Name: challenge.py
+            Object Name: ᅠ
+            Arg Count: 0
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 0
+            Stack Size: 3
+            Flags: 0x00000040 (CO_NOFREE)
+            [Names]
+                '__name__'
+                '__module__'
+                '__qualname__'
+                'int'
+                '__annotations__'
+                'str'
+            [Var Names]
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                '\xe1\x85\xa0'
+                'x'
+                'y'
+                None
+            [Disassembly]
+                0       LOAD_NAME               0: __name__
+                2       STORE_NAME              1: __module__
+                4       LOAD_CONST              0: '\xe1\x85\xa0'
+                6       STORE_NAME              2: __qualname__
+                8       SETUP_ANNOTATIONS       
+                10      LOAD_NAME               3: int
+                12      LOAD_NAME               4: __annotations__
+                14      LOAD_CONST              1: 'x'
+                16      STORE_SUBSCR            
+                18      LOAD_NAME               5: str
+                20      LOAD_NAME               4: __annotations__
+                22      LOAD_CONST              2: 'y'
+                24      STORE_SUBSCR            
+                26      LOAD_CONST              3: None
+                28      RETURN_VALUE            
+        '\xe1\x85\xa0'
+        [Code]
+            File Name: challenge.py
+            Object Name: <genexpr>
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 3
+            Flags: 0x00000063 (CO_OPTIMIZED | CO_NEWLOCALS | CO_GENERATOR | CO_NOFREE)
+            [Names]
+            [Var Names]
+                '.0'
+                'e'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                1337
+                None
+            [Disassembly]
+                0       GEN_START               0
+                2       LOAD_FAST               0: .0
+                4       FOR_ITER                7 (to 13)
+                6       STORE_FAST              1: e
+                8       LOAD_FAST               1: e
+                10      LOAD_CONST              0: 1337
+                12      BINARY_XOR              
+                14      YIELD_VALUE             
+                16      POP_TOP                 
+                18      JUMP_ABSOLUTE           2
+                20      LOAD_CONST              1: None
+                22      RETURN_VALUE            
+        '<genexpr>'
+        (
+            1385
+            1403
+            1402
+            1389
+            1407
+        )
+        'hashlib'
+        'md5'
+        'flag? '
+        [Code]
+            File Name: challenge.py
+            Object Name: <lambda>
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 1
+            Stack Size: 2
+            Flags: 0x00000043 (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)
+            [Names]
+                '\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0\xe1\x85\xa0'
+                'hexdigest'
+            [Var Names]
+                'x'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       LOAD_GLOBAL             0: ᅠᅠᅠᅠᅠᅠ
+                2       LOAD_FAST               0: x
+                4       CALL_FUNCTION           1
+                6       LOAD_METHOD             1: hexdigest
+                8       CALL_METHOD             0
+                10      RETURN_VALUE            
+        '<lambda>'
+        -1
+        0
+        7
+        'p'
+        'b'
+        'c'
+        't'
+        'f'
+        '{'
+        '}'
+        1
+        32
+        112
+        [Code]
+            File Name: challenge.py
+            Object Name: <genexpr>
+            Arg Count: 1
+            Pos Only Arg Count: 0
+            KW Only Arg Count: 0
+            Locals: 2
+            Stack Size: 3
+            Flags: 0x00000063 (CO_OPTIMIZED | CO_NEWLOCALS | CO_GENERATOR | CO_NOFREE)
+            [Names]
+                '\xe1\x85\xa0'
+            [Var Names]
+                '.0'
+                'e'
+            [Free Vars]
+            [Cell Vars]
+            [Constants]
+                None
+            [Disassembly]
+                0       GEN_START               0
+                2       LOAD_FAST               0: .0
+                4       FOR_ITER                7 (to 13)
+                6       STORE_FAST              1: e
+                8       LOAD_GLOBAL             0: ᅠ
+                10      LOAD_FAST               1: e
+                12      CALL_FUNCTION_EX        0
+                14      YIELD_VALUE             
+                16      POP_TOP                 
+                18      JUMP_ABSOLUTE           2
+                20      LOAD_CONST              0: None
+                22      RETURN_VALUE            
+        (
+        )
+        125
+        'Correct'
+        'Nope'
+        None
+    [Disassembly]
+        0       LOAD_NAME               0: __import__
+        2       LOAD_CONST              0: 'dataclasses'
+        4       CALL_FUNCTION           1
+        6       LOAD_ATTR               1: dataclass
+        8       LOAD_BUILD_CLASS        
+        10      LOAD_CONST              1: <CODE> ᅠ
+        12      LOAD_CONST              2: '\xe1\x85\xa0'
+        14      MAKE_FUNCTION           0
+        16      LOAD_CONST              2: '\xe1\x85\xa0'
+        18      CALL_FUNCTION           2
+        20      CALL_FUNCTION           1
+        22      STORE_NAME              2: ᅠ
+        24      LOAD_NAME               3: bytes
+        26      LOAD_CONST              3: <CODE> <genexpr>
+        28      LOAD_CONST              4: '<genexpr>'
+        30      MAKE_FUNCTION           0
+        32      LOAD_CONST              5: (1385, 1403, 1402, 1389, 1407)
+        34      GET_ITER                
+        36      CALL_FUNCTION           1
+        38      CALL_FUNCTION           1
+        40      STORE_NAME              4: ᅠᅠᅠ
+        42      LOAD_NAME               5: getattr
+        44      LOAD_NAME               0: __import__
+        46      LOAD_CONST              6: 'hashlib'
+        48      CALL_FUNCTION           1
+        50      LOAD_CONST              7: 'md5'
+        52      CALL_FUNCTION           2
+        54      STORE_NAME              6: ᅠᅠᅠᅠᅠᅠ
+        56      LOAD_NAME               7: input
+        58      LOAD_CONST              8: 'flag? '
+        60      CALL_FUNCTION           1
+        62      STORE_NAME              8: I
+        64      LOAD_CONST              9: <CODE> <lambda>
+        66      LOAD_CONST              10: '<lambda>'
+        68      MAKE_FUNCTION           0
+        70      STORE_NAME              9: ᅠᅠᅠᅠ
+        72      LOAD_NAME               10: list
+        74      LOAD_NAME               8: I
+        76      CALL_FUNCTION           1
+        78      BUILD_LIST              1
+        80      STORE_NAME              11: ᅠᅠᅠᅠᅠ
+        82      BUILD_MAP               0
+        84      STORE_NAME              12: ᅠᅠ
+        86      LOAD_CONST              11: -1
+        88      STORE_NAME              13: ᅠᅠᅠᅠᅠᅠᅠ
+        90      LOAD_NAME               11: ᅠᅠᅠᅠᅠ
+        92      POP_JUMP_IF_FALSE       177
+        94      LOAD_NAME               11: ᅠᅠᅠᅠᅠ
+        96      LOAD_METHOD             14: pop
+        98      LOAD_CONST              12: 0
+        100     CALL_METHOD             1
+        102     DUP_TOP                 
+        104     MATCH_SEQUENCE          
+        106     POP_JUMP_IF_FALSE       122
+        108     GET_LEN                 
+        110     LOAD_CONST              13: 7
+        112     COMPARE_OP              5 (>=)
+        114     POP_JUMP_IF_FALSE       122
+        116     UNPACK_EX               262
+        120     LOAD_CONST              14: 'p'
+        122     COMPARE_OP              2 (==)
+        124     POP_JUMP_IF_FALSE       116
+        126     LOAD_CONST              15: 'b'
+        128     COMPARE_OP              2 (==)
+        130     POP_JUMP_IF_FALSE       117
+        132     LOAD_CONST              16: 'c'
+        134     COMPARE_OP              2 (==)
+        136     POP_JUMP_IF_FALSE       118
+        138     LOAD_CONST              17: 't'
+        140     COMPARE_OP              2 (==)
+        142     POP_JUMP_IF_FALSE       119
+        144     LOAD_CONST              18: 'f'
+        146     COMPARE_OP              2 (==)
+        148     POP_JUMP_IF_FALSE       120
+        150     LOAD_CONST              19: '{'
+        152     COMPARE_OP              2 (==)
+        154     POP_JUMP_IF_FALSE       121
+        156     ROT_TWO                 
+        158     LOAD_CONST              20: '}'
+        160     COMPARE_OP              2 (==)
+        162     POP_JUMP_IF_FALSE       122
+        164     STORE_NAME              15: R
+        166     POP_TOP                 
+        168     LOAD_NAME               12: ᅠᅠ
+        170     LOAD_NAME               13: ᅠᅠᅠᅠᅠᅠᅠ
+        172     LOAD_CONST              21: 1
+        174     BINARY_ADD              
+        176     DUP_TOP                 
+        178     STORE_NAME              13: ᅠᅠᅠᅠᅠᅠᅠ
+        180     POP_JUMP_IF_TRUE        97
+        182     LOAD_NAME               16: len
+        184     LOAD_NAME               15: R
+        186     CALL_FUNCTION           1
+        188     LOAD_CONST              22: 32
+        190     COMPARE_OP              3 (!=)
+        192     POP_JUMP_IF_FALSE       101
+        194     LOAD_CONST              12: 0
+        196     LOAD_CONST              23: 112
+        198     BUILD_MAP               1
+        200     JUMP_FORWARD            1 (to 203)
+        202     BUILD_MAP               0
+        204     INPLACE_OR              
+        206     STORE_NAME              12: ᅠᅠ
+        208     LOAD_NAME               10: list
+        210     LOAD_CONST              24: <CODE> <genexpr>
+        212     LOAD_CONST              4: '<genexpr>'
+        214     MAKE_FUNCTION           0
+        216     LOAD_NAME               17: enumerate
+        218     LOAD_NAME               15: R
+        220     CALL_FUNCTION           1
+        222     GET_ITER                
+        224     CALL_FUNCTION           1
+        226     CALL_FUNCTION           1
+        228     STORE_NAME              11: ᅠᅠᅠᅠᅠ
+        230     JUMP_FORWARD            59 (to 291)
+        232     POP_TOP                 
+        234     POP_TOP                 
+        236     POP_TOP                 
+        238     POP_TOP                 
+        240     POP_TOP                 
+        242     POP_TOP                 
+        244     POP_TOP                 
+        246     LOAD_NAME               2: ᅠ
+        248     LOAD_CONST              25: ()
+        250     MATCH_CLASS             2
+        252     POP_JUMP_IF_FALSE       167
+        254     DUP_TOP                 
+        256     LOAD_CONST              12: 0
+        258     BINARY_SUBSCR           
+        260     ROT_TWO                 
+        262     DUP_TOP                 
+        264     LOAD_CONST              21: 1
+        266     BINARY_SUBSCR           
+        268     ROT_THREE               
+        270     POP_TOP                 
+        272     STORE_NAME              18: x
+        274     STORE_NAME              19: y
+        276     LOAD_NAME               12: ᅠᅠ
+        278     LOAD_NAME               13: ᅠᅠᅠᅠᅠᅠᅠ
+        280     LOAD_CONST              21: 1
+        282     BINARY_ADD              
+        284     DUP_TOP                 
+        286     STORE_NAME              13: ᅠᅠᅠᅠᅠᅠᅠ
+        288     LOAD_NAME               18: x
+        290     LOAD_CONST              21: 1
+        292     BINARY_ADD              
+        294     COMPARE_OP              3 (!=)
+        296     POP_JUMP_IF_TRUE        159
+        298     LOAD_NAME               9: ᅠᅠᅠᅠ
+        300     LOAD_NAME               4: ᅠᅠᅠ
+        302     LOAD_NAME               18: x
+        304     BINARY_MULTIPLY         
+        306     CALL_FUNCTION           1
+        308     LOAD_NAME               18: x
+        310     BINARY_SUBSCR           
+        312     LOAD_NAME               19: y
+        314     COMPARE_OP              3 (!=)
+        316     POP_JUMP_IF_FALSE       163
+        318     LOAD_NAME               18: x
+        320     LOAD_NAME               19: y
+        322     BUILD_MAP               1
+        324     JUMP_FORWARD            1 (to 327)
+        326     BUILD_MAP               0
+        328     INPLACE_OR              
+        330     STORE_NAME              12: ᅠᅠ
+        332     JUMP_FORWARD            8 (to 342)
+        334     POP_TOP                 
+        336     LOAD_NAME               12: ᅠᅠ
+        338     LOAD_CONST              21: 1
+        340     LOAD_CONST              26: 125
+        342     BUILD_MAP               1
+        344     INPLACE_OR              
+        346     STORE_NAME              12: ᅠᅠ
+        348     JUMP_ABSOLUTE           177
+        350     LOAD_NAME               11: ᅠᅠᅠᅠᅠ
+        352     POP_JUMP_IF_TRUE        47
+        354     LOAD_NAME               20: print
+        356     LOAD_NAME               12: ᅠᅠ
+        358     POP_JUMP_IF_TRUE        185
+        360     LOAD_CONST              27: 'Correct'
+        362     CALL_FUNCTION           1
+        364     POP_TOP                 
+        366     LOAD_CONST              29: None
+        368     RETURN_VALUE            
+        370     LOAD_CONST              28: 'Nope'
+        372     CALL_FUNCTION           1
+        374     POP_TOP                 
+        376     LOAD_CONST              29: None
+        378     RETURN_VALUE            
