@@ -11,6 +11,8 @@ http::http(httpHandler *handler,int maxThreads)
         while (true)
         {
             int index=0;
+            std::unique_lock<std::mutex> lck(mutex);
+            consumer.wait(lck);
             while (vec.size()!=0)
             {
                 auto &&[fd,sockfd,fileSize,offset]=*vec[index];
@@ -116,7 +118,14 @@ void http::doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> 
                 close(result.fd);
             }
             else
+            {
                 vec.push_back(new fileStruct(result.fd,*sockfd,result.fileSize,0));
+                if (vec.size()==1)
+                {
+                    std::unique_lock<std::mutex> lck(mutex);
+                    consumer.notify_one();
+                }
+            }
         }
         if (!result.getConnection())
             handleClose(sockfd);

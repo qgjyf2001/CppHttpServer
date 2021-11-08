@@ -1,6 +1,7 @@
 #ifndef HTTP_H
 #define HTTP_H
 #include <iostream>
+#include <condition_variable>
 #include <unistd.h>
 #include "httpHandler.h"
 #include "httpResponse.h"
@@ -31,6 +32,8 @@ private:
     std::thread sendThread;
     safeVector<fileStruct*> vec;
     std::map<int,std::pair<std::string,int>> uncompleted;
+    std::mutex mutex;
+    std::condition_variable consumer;
 public:
     http(httpHandler* handler,int maxThreads=4);
     void doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> handleClose);
