@@ -24,8 +24,9 @@ std::thread* threadPool::threadLoop(int _num)
         //signal(SIGPIPE , SIG_IGN);
         while (!terminate[num])
         {
-            if (!available[num]->try_lock()) 
-                continue;
+            available[num]->lock();
+            if (terminate[num])
+                break;
             std::lock_guard<std::mutex> lck(*finished[num]);            
             ready[num]=true;
             f[num](args[num]);
@@ -61,6 +62,8 @@ threadPool::~threadPool()
     for (int i=0;i<threadNum;i++)
     {
         terminate[i]=true;
+        available[i]->try_lock();
+        available[i]->unlock();
         if (threads[i]->joinable())
             threads[i]->join();
     }

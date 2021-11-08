@@ -84,7 +84,10 @@ void tcpServer::startForever()
                         clientfd[i].fd=-1;
                         continue;
                     }
-                    httpServer.doHttp(&clientfd[i].fd,std::string(buf,n));                    
+                    httpServer.doHttp(&clientfd[i].fd,std::string(buf,n),[](int* sockfd){
+                            close(*sockfd);
+                            *sockfd=-1;
+                    });                    
                 }
             }
             httpServer.waitAll();

@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Oct 23 10:34:13 2021
+# Make data base, printed on Mon Nov  8 09:36:31 2021
 
 # Variables
 
@@ -31,7 +31,7 @@ VSCODE_LOG_NATIVE = false
 # environment
 IM_CONFIG_PHASE = 1
 # makefile (from 'Makefile', line 10)
-TCPTARGET = $(TCP)/tcpServer.o
+TCPTARGET = $(TCP)/tcpServer.o $(TCP)/ltServer.o
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
@@ -51,7 +51,7 @@ _ = /usr/share/code/code
 # makefile (from 'Makefile', line 15)
 FILESYSTEM = ./fileSystem
 # environment
-JOURNAL_STREAM = 8:45779
+JOURNAL_STREAM = 8:40855
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # makefile (from 'Makefile', line 1)
@@ -77,7 +77,7 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-MANAGERPID = 1500
+MANAGERPID = 1488
 # environment
 CLUTTER_IM_MODULE = fcitx
 # environment
@@ -99,7 +99,7 @@ GJS_DEBUG_OUTPUT = stderr
 # makefile (from 'Makefile', line 19)
 SAFEVECTOR = ./safeVector
 # environment
-SESSION_MANAGER = local/wycfather:@/tmp/.ICE-unix/1712,unix/wycfather:/tmp/.ICE-unix/1712
+SESSION_MANAGER = local/wycfather:@/tmp/.ICE-unix/1705,unix/wycfather:/tmp/.ICE-unix/1705
 # makefile (from 'Makefile', line 16)
 FILESYSTEMTARGET = $(FILESYSTEM)/folderHook.o
 # environment
@@ -113,7 +113,7 @@ VSCODE_LOG_STACK = false
 # environment
 VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"VSCode","submitURL":"appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=50a9fddc-b1e9-4ca0-a496-2364db743386&iid=50a9fddc-b1e9-4ca0-a496-2364db743386&sid=50a9fddc-b1e9-4ca0-a496-2364db743386","uploadToServer":true}
 # environment
-INVOCATION_ID = 8b694cca96284633bce30b2f1b170db1
+INVOCATION_ID = e7ba0de38e9e4b2caef2e766f8bf9dd2
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -123,7 +123,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 3563
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2127
 # automatic
 %F = $(notdir $%)
 # environment
@@ -139,7 +139,7 @@ PWD = /home/qgjyf2001/work
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 1669
+SSH_AGENT_PID = 1661
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = ubuntu:GNOME
 # environment
@@ -183,7 +183,7 @@ HTTP = ./http
 # environment
 GNOME_SHELL_SESSION_MODE = ubuntu
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-61ea6563-1914-4d39-94d3-8b0a5c71332f.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-14419ee8-5729-49ee-9774-f363989e2861.sock
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -260,6 +260,7 @@ GJS_DEBUG_TOPICS = JS ERROR;JS LOG
 ^F = $(notdir $^)
 # makefile (from 'Makefile', line 18)
 JSONPARSERTARGET = $(JSONPARSER)/jsonParser.o
+ 
 # default
 SUFFIXES := 
 # environment
@@ -281,9 +282,9 @@ TOOLS = ./tools
 # environment
 LANG = C
 # environment
-VSCODE_PID = 3563
+VSCODE_PID = 2127
 # variable set hash-table stats:
-# Load=136/1024=13%, Rehash=0, Collisions=35/206=17%
+# Load=136/1024=13%, Rehash=0, Collisions=34/212=16%
 
 # Pattern-specific Variable Values
 
@@ -291,21 +292,25 @@ VSCODE_PID = 3563
 
 # Directories
 
-# mysqlHelper (device 2051, inode 1102219): 4 files, no impossibilities so far.
-# . (device 2051, inode 927226): 30 files, no impossibilities.
-# http (device 2051, inode 927239): 5 files, no impossibilities so far.
-# tools (device 2051, inode 933897): 4 files, no impossibilities so far.
+# mysqlHelper (device 2051, inode 1102219): No files, no impossibilities so far.
+# . (device 2051, inode 927226): 29 files, no impossibilities.
+# tcp (device 2051, inode 927238): No files, no impossibilities so far.
+# http (device 2051, inode 927239): No files, no impossibilities so far.
+# tools (device 2051, inode 933897): No files, no impossibilities so far.
 
-# 43 files, no impossibilities in 4 directories.
+# 29 files, no impossibilities in 5 directories.
 
 # Implicit Rules
+
+tcp/%.o: tcp/%.cpp
+#  recipe to execute (from 'Makefile', line 29):
+	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 
 http/%.o: http/%.cpp
 #  recipe to execute (from 'Makefile', line 31):
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 
 tools/%.o: tools/%.cpp
- 
 #  recipe to execute (from 'Makefile', line 33):
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 
@@ -313,47 +318,31 @@ mysqlHelper/%.o: mysqlHelper/%.cpp
 #  recipe to execute (from 'Makefile', line 35):
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 
-# 3 implicit rules, 0 (0.0%) terminal.
+# 4 implicit rules, 0 (0.0%) terminal.
 
 # Files
 
 # Not a target:
-http/httpParser.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2021-09-09 17:35:37.975178594
-#  File has been updated.
-#  Successfully updated.
-
-mysqlHelper/mysqlHelperImp.o: mysqlHelper/mysqlHelperImp.cpp
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: 'mysqlHelperImp'
-#  Last modified 2021-10-21 10:15:57.509761644
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 35):
-	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
+mysqlHelper/mysqlHelperImp.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 all: main
 #  Command line target.
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
 
 webServer/webServer.o: webServer/webServer.cpp
 #  Implicit rule search has not been done.
-#  Last modified 2021-10-21 10:15:50.289978916
-#  File has been updated.
-#  Successfully updated.
+#  Modification time never checked.
+#  File has not been updated.
 #  recipe to execute (from 'Makefile', line 37):
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
-
-# Not a target:
-http/httpHandler.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2021-09-17 13:34:43.094325418
-#  File has been updated.
-#  Successfully updated.
 
 web:
 #  Implicit rule search has not been done.
@@ -362,110 +351,75 @@ web:
 #  recipe to execute (from 'Makefile', line 49):
 	cd ./app&&yarn build
 
-tools/zipFolder.o: tools/zipFolder.cpp
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: 'zipFolder'
-#  Last modified 2021-10-21 10:15:56.109803747
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 33):
-	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+tools/zipFolder.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-10-15 22:04:21.529403639
+#  Last modified 2021-10-27 20:18:23.006340909
 #  File has been updated.
 #  Successfully updated.
 
 json/jsonParser.o: json/jsonParser.cpp
 #  Implicit rule search has not been done.
-#  Last modified 2021-10-21 10:15:53.297888354
-#  File has been updated.
-#  Successfully updated.
+#  Modification time never checked.
+#  File has not been updated.
 #  recipe to execute (from 'Makefile', line 41):
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 
 # Not a target:
 fileSystem/folderHook.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2021-09-09 09:52:59.200550871
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 main.cpp:
 #  Implicit rule search has been done.
-#  Last modified 2021-10-21 10:08:44.073446518
+#  Last modified 2021-11-07 21:04:25.605060574
 #  File has been updated.
 #  Successfully updated.
 
 threadPool/threadPool.o: threadPool/threadPool.cpp
 #  Implicit rule search has not been done.
-#  Last modified 2021-10-21 10:15:46.21010185
-#  File has been updated.
-#  Successfully updated.
+#  Modification time never checked.
+#  File has not been updated.
 #  recipe to execute (from 'Makefile', line 27):
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 
-http/httpParser.o: http/httpParser.cpp
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: 'httpParser'
-#  Last modified 2021-10-21 10:15:47.374066765
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 31):
-	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
-
 # Not a target:
-tcp/tcpServer.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2021-09-23 10:06:15.987336384
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-mysqlHelper/mysqlHelper.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2021-10-21 10:02:27.548489036
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-http/http.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2021-09-27 10:01:21.039236739
-#  File has been updated.
-#  Successfully updated.
+http/httpParser.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 safeVector/safeVector.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2021-09-09 10:06:56.061691887
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
-http/httpHandler.o: http/httpHandler.cpp
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: 'httpHandler'
-#  Last modified 2021-10-21 10:15:49.334007711
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 31):
-	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
+# Not a target:
+http/httpHandler.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 .DEFAULT:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-
-# Not a target:
-mysqlHelper/mysqlHelperImp.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2021-10-21 10:09:50.618235951
-#  File has been updated.
-#  Successfully updated.
 
 clean:
 #  Implicit rule search has not been done.
@@ -477,104 +431,111 @@ clean:
 
 # Not a target:
 webServer/webServer.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2021-09-09 09:52:27.347572875
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 fileSystem/folderHook.o: fileSystem/folderHook.cpp
 #  Implicit rule search has not been done.
-#  Last modified 2021-10-21 10:15:51.757934711
-#  File has been updated.
-#  Successfully updated.
+#  Modification time never checked.
+#  File has not been updated.
 #  recipe to execute (from 'Makefile', line 39):
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 
-main: main.o threadPool/threadPool.o tcp/tcpServer.o http/httpParser.o http/http.o http/httpHandler.o webServer/webServer.o fileSystem/folderHook.o json/jsonParser.o safeVector/safeVector.o tools/zipFolder.o mysqlHelper/mysqlHelper.o mysqlHelper/mysqlHelperImp.o
+main: main.o threadPool/threadPool.o tcp/tcpServer.o tcp/ltServer.o http/httpParser.o http/http.o http/httpHandler.o webServer/webServer.o fileSystem/folderHook.o json/jsonParser.o safeVector/safeVector.o tools/zipFolder.o mysqlHelper/mysqlHelper.o mysqlHelper/mysqlHelperImp.o
 #  Implicit rule search has not been done.
-#  Last modified 2021-10-21 10:15:57.661757073
+#  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/6=0%
 #  recipe to execute (from 'Makefile', line 47):
 	$(CC) -o $@ $^ -lpthread -lminizip -lmysqlclient
 
 main.o: main.cpp
 #  Implicit rule search has not been done.
-#  Last modified 2021-10-21 10:15:45.550121747
+#  Implicit/static pattern stem: ''
+#  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := main.o
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := main.cpp
+# automatic
+# | := 
+# automatic
+# < := main.cpp
+# automatic
+# ^ := main.cpp
+# automatic
+# ? := main.cpp
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=2/16=12%
 #  recipe to execute (from 'Makefile', line 45):
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 
 # Not a target:
-tools/zipFolder.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2021-09-15 17:52:17.12061603
-#  File has been updated.
-#  Successfully updated.
+json/jsonParser.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
-json/jsonParser.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2021-10-19 11:00:06.907570947
-#  File has been updated.
-#  Successfully updated.
-
-tcp/tcpServer.o: tcp/tcpServer.cpp
+tcp/ltServer.o:
 #  Implicit rule search has not been done.
-#  Last modified 2021-10-21 10:15:46.9780787
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 29):
-	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
+#  Modification time never checked.
+#  File has not been updated.
 
-mysqlHelper/mysqlHelper.o: mysqlHelper/mysqlHelper.cpp
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: 'mysqlHelper'
-#  Last modified 2021-10-21 10:15:56.721785341
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 35):
-	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
+# Not a target:
+tcp/tcpServer.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
-http/http.o: http/http.cpp
-#  Implicit rule search has been done.
-#  Implicit/static pattern stem: 'http'
-#  Last modified 2021-10-21 10:15:48.426035066
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 31):
-	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
+# Not a target:
+mysqlHelper/mysqlHelper.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+http/http.o:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 safeVector/safeVector.o: safeVector/safeVector.cpp
 #  Implicit rule search has not been done.
-#  Last modified 2021-10-21 10:15:55.145832746
-#  File has been updated.
-#  Successfully updated.
+#  Modification time never checked.
+#  File has not been updated.
 #  recipe to execute (from 'Makefile', line 43):
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 
 # Not a target:
 threadPool/threadPool.cpp:
-#  Implicit rule search has been done.
-#  Last modified 2021-09-15 11:30:57.096740254
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # files hash-table stats:
-# Load=33/1024=3%, Rehash=0, Collisions=1/84=1%
+# Load=27/1024=3%, Rehash=0, Collisions=1/61=2%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 81 / storage = 1111 B / avg = 13 B
-# current buf: size = 8162 B / used = 1111 B / count = 81 / avg = 13 B
+# strcache buffers: 1 (0) / strings = 64 / storage = 812 B / avg = 12 B
+# current buf: size = 8162 B / used = 812 B / count = 64 / avg = 12 B
 
-# strcache performance: lookups = 122 / hit rate = 33%
+# strcache performance: lookups = 92 / hit rate = 30%
 # hash-table stats:
-# Load=81/8192=1%, Rehash=0, Collisions=2/122=2%
-# Finished Make data base on Sat Oct 23 10:34:13 2021
+# Load=64/8192=1%, Rehash=0, Collisions=1/92=1%
+# Finished Make data base on Mon Nov  8 09:36:31 2021
 
  

@@ -33,7 +33,7 @@ private:
     std::map<int,std::pair<std::string,int>> uncompleted;
 public:
     http(httpHandler* handler,int maxThreads=4);
-    void doHttp(int* sockfd,std::string httpRequest);
+    void doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> handleClose);
     void free(int sockfd);
     void waitAll();
     ~http();

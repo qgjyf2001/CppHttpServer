@@ -7,7 +7,7 @@ INCLUDE=./include
 THREADPOOL=./threadPool
 THREADPOOLTARGET=$(THREADPOOL)/threadPool.o
 TCP=./tcp
-TCPTARGET=$(TCP)/tcpServer.o
+TCPTARGET=$(TCP)/tcpServer.o $(TCP)/ltServer.o
 HTTP=./http
 HTTPTARGET=$(HTTP)/httpParser.o $(HTTP)/http.o $(HTTP)/httpHandler.o
 WEBSERVER=./webServer
@@ -25,7 +25,7 @@ SQLTARGET=$(SQL)/mysqlHelper.o $(SQL)/mysqlHelperImp.o
 
 $(THREADPOOLTARGET):$(THREADPOOL)/threadPool.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
-$(TCPTARGET):$(TCP)/tcpServer.cpp
+$(TCP)/%.o:$(TCP)/%.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 $(HTTP)/%.o:$(HTTP)/%.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@

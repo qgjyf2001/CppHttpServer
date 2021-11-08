@@ -48,7 +48,7 @@ void http::free(int sockfd)
     if (uncompleted.find(sockfd)!=uncompleted.end())
         uncompleted.erase(sockfd);
 }
-void http::doHttp(int* sockfd,std::string httpRequest)
+void http::doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> handleClose)
 {
     pool->addThread([=](void *args){     
         signal(SIGPIPE , SIG_IGN);
@@ -76,10 +76,7 @@ void http::doHttp(int* sockfd,std::string httpRequest)
                         std::string badRequest=resp.toString();
                         write(*sockfd,badRequest.c_str(),badRequest.length());
                         if (!resp.getConnection())
-                        {
-                            close(*sockfd);
-                            *sockfd=-1;
-                        }
+                            handleClose(sockfd);
                         uncompleted.erase(*sockfd);
                         return;
                     }
@@ -104,16 +101,13 @@ void http::doHttp(int* sockfd,std::string httpRequest)
                 std::string badRequest=resp.toString();
                 write(*sockfd,badRequest.c_str(),badRequest.length());
                 if (!resp.getConnection())
-                {
-                    close(*sockfd);
-                    *sockfd=-1;
-                }
+                    handleClose(sockfd);
                 return;
             }
         }
         auto result=handler->handleRequest(request);
         auto responseText=result.toString();
-        write(*sockfd,responseText.c_str(),responseText.length());
+        int wrote=write(*sockfd,responseText.c_str(),responseText.length());
         if (result.fd!=-1)
         {
             if (result.fileSize<sendLength)
@@ -125,10 +119,7 @@ void http::doHttp(int* sockfd,std::string httpRequest)
                 vec.push_back(new fileStruct(result.fd,*sockfd,result.fileSize,0));
         }
         if (!result.getConnection())
-        {
-            close(*sockfd);
-            *sockfd=-1;
-        }
+            handleClose(sockfd);
     },&sockfd);
 }
 void http::waitAll()
