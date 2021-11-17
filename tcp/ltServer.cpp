@@ -48,6 +48,7 @@ void ltServer::startForever()
         {
             throw std::runtime_error("epoll error");
         }
+        std::vector<int> fds;
         for (int i=0;i<size;i++)
         {
             int sockfd=events[i].data.fd;
@@ -68,6 +69,7 @@ void ltServer::startForever()
                     close(sockfd);
                     continue;
                 }
+                fds.push_back(sockfd);
                 httpServer.doHttp(&sockfd,std::string(buf,n),[epollfd](int *sockfd){
                     epoll_ctl(epollfd,EPOLL_CTL_DEL,*sockfd,0);
                     close(*sockfd);
@@ -76,6 +78,13 @@ void ltServer::startForever()
             }
         } 
         httpServer.waitAll();
+        for (auto &&fd:fds)
+        {
+            epoll_event event;
+            event.data.fd=fd;
+            event.events=EPOLLIN|EPOLLONESHOT;
+            epoll_ctl(epollfd,EPOLL_CTL_MOD,fd,&event);
+        }
     }
     
 }

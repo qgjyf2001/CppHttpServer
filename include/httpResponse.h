@@ -17,7 +17,7 @@ private:
     std::string description;
     std::map<std::string,std::string> headers;
     std::string text;
-    bool connection=false;    
+    bool connection=true;    
     std::map<std::string,std::string> fileMapping={
         {"js","text/javascript"},
         {"css","text/css"},
