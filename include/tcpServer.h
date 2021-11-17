@@ -15,8 +15,16 @@
 
 #define MAXLINE 1024
 #define LISTENQ 5
-
 class tcpServer
+{
+public:
+    virtual void startForever()=0;
+    virtual ~tcpServer()
+    {
+
+    }
+};
+class poolServer:public tcpServer
 {
 private:
     int port;
@@ -24,11 +32,11 @@ private:
     int maxClient;
     httpHandler* handler;
 public:
-    tcpServer(httpHandler* handler,int port,std::string ipAddress="127.0.0.1",int maxClient=65536);
+    poolServer(httpHandler* handler,int port,std::string ipAddress="127.0.0.1",int maxClient=65536);
     void startForever();
-    ~tcpServer();
+    ~poolServer();
 };
-class ltServer
+class ltServer:public tcpServer
 {
 private:
     int port;

@@ -1,7 +1,7 @@
 #include "tcpServer.h"
 #include "http.h"
 #include "httpParser.h"
-tcpServer::tcpServer(httpHandler* handler,int port,std::string ipAddress,int maxClient)
+poolServer::poolServer(httpHandler* handler,int port,std::string ipAddress,int maxClient)
 {
     signal(SIGPIPE , SIG_IGN);
     this->port=port;
@@ -9,7 +9,7 @@ tcpServer::tcpServer(httpHandler* handler,int port,std::string ipAddress,int max
     this->maxClient=maxClient;
     this->handler=handler;
 }
-void tcpServer::startForever()
+void poolServer::startForever()
 {
     auto httpServer=http(handler);
     //init
@@ -95,6 +95,6 @@ void tcpServer::startForever()
     }
     
 }
-tcpServer::~tcpServer()
+poolServer::~poolServer()
 {
 }
