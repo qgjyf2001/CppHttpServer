@@ -51,8 +51,8 @@ void ltServer::startForever()
         std::vector<int> fds;
         for (int i=0;i<size;i++)
         {
-            int sockfd=events[i].data.fd;
-            if (sockfd==listenfd)
+            int* sockfd=&events[i].data.fd;
+            if (*sockfd==listenfd)
             {
                 socklen_t clientAddrLen=sizeof(clientaddr);
                 auto connfd=accept(listenfd,(sockaddr*)&clientaddr,&clientAddrLen);
@@ -61,16 +61,16 @@ void ltServer::startForever()
             else
             if (events[i].events&EPOLLIN)
             {
-                auto n=read(sockfd,buf,MAXLINE);
+                auto n=read(*sockfd,buf,MAXLINE);
                 if (n<=0)
                 {
-                    httpServer.free(sockfd);
-                    epoll_ctl(epollfd,EPOLL_CTL_DEL,sockfd,0);
-                    close(sockfd);
+                    httpServer.free(*sockfd);
+                    epoll_ctl(epollfd,EPOLL_CTL_DEL,*sockfd,0);
+                    close(*sockfd);
                     continue;
                 }
-                fds.push_back(sockfd);
-                httpServer.doHttp(&sockfd,std::string(buf,n),[epollfd](int *sockfd){
+                fds.push_back(*sockfd);
+                httpServer.doHttp(sockfd,std::string(buf,n),[epollfd](int *sockfd){
                     epoll_ctl(epollfd,EPOLL_CTL_DEL,*sockfd,0);
                     close(*sockfd);
                     *sockfd=-1;

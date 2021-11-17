@@ -90,7 +90,7 @@ void http::doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> 
         {
             try
             {
-                request=httpParser::parse(httpRequest);       
+                request=httpParser::parse(httpRequest);    
                 if (auto len1=std::atoi(request["Content-Length"].c_str()),len2=(int)request["text"].length();len1>len2)
                 {
                     uncompleted[*sockfd]=std::make_pair(httpRequest,len1-len2);
