@@ -5,6 +5,9 @@
 #include <thread>
 #include <mutex>
 #include <functional>
+#include <condition_variable>
+
+#include "safeVector.h"
 class threadPool
 {
 private:
@@ -17,6 +20,7 @@ private:
     std::vector<void*> args;
     int threadNum;
     std::thread *threadLoop(int num);
+    safeVector<int> availableThread;
 public:
     threadPool(int threadNum);
     void addThread(std::function<void(void*)>function,void *arg);

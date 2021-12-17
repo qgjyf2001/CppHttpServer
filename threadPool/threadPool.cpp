@@ -11,6 +11,7 @@ threadPool::threadPool(int threadNum)
         std::mutex* mtx=new std::mutex();
         mtx->lock();
         available.push_back(mtx);
+        availableThread.push_back(i);
         finished.push_back(new std::mutex());
     }
     args.reserve(threadNum);
@@ -28,27 +29,18 @@ std::thread* threadPool::threadLoop(int _num)
             if (terminate[num])
                 break;
             std::lock_guard<std::mutex> lck(*finished[num]);            
-            ready[num]=true;
             f[num](args[num]);
+            availableThread.push_back(num);
         }
     },_num);
 }
 void threadPool::addThread(std::function<void(void*)>function,void *arg)
 {
-    for (int i=0;;i=(i+1)%threadNum)
-    {
-        if (finished[i]->try_lock())
-        {
-
-            args[i]=arg;
-            f[i]=function;
-            finished[i]->unlock();
-            available[i]->unlock();
-            while (!ready[i]);
-            ready[i]=false;
-            break;
-        }
-    }
+    while (availableThread.empty());
+    int now=availableThread.pop();
+    args[now]=arg;
+    f[now]=function;
+    available[now]->unlock();
 }
 void threadPool::waitAll()
 {
