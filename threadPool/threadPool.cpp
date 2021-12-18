@@ -36,7 +36,7 @@ std::thread* threadPool::threadLoop(int _num)
 }
 void threadPool::addThread(std::function<void(void*)>function,void *arg)
 {
-    while (availableThread.empty());
+    while (availableThread.size()==0);
     int now=availableThread.pop();
     args[now]=arg;
     f[now]=function;
@@ -44,10 +44,7 @@ void threadPool::addThread(std::function<void(void*)>function,void *arg)
 }
 void threadPool::waitAll()
 {
-    for (int i=0;i<threadNum;i++)
-        finished[i]->lock();
-    for (int i=0;i<threadNum;i++)
-        finished[i]->unlock();
+    while (availableThread.size()!=threadNum);
 }
 threadPool::~threadPool()
 {

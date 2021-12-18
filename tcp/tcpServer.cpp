@@ -38,6 +38,7 @@ void poolServer::startForever()
     clientfd[0].events=POLLIN;
     clientfd[0].revents=0;
     int totfd=0;
+    int cnt=0;
     while (true)
     {
         auto nready=poll(clientfd,totfd+1,-1);
@@ -87,7 +88,8 @@ void poolServer::startForever()
                     httpServer.doHttp(&clientfd[i].fd,std::string(buf,n),[](int* sockfd){
                             close(*sockfd);
                             *sockfd=-1;
-                    });                    
+                    });           
+                       
                 }
             }
             httpServer.waitAll();

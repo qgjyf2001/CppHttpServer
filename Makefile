@@ -1,7 +1,7 @@
 all:main
 
 CC=g++
-CXXFLAGS=-std=c++17 -g
+CXXFLAGS=-std=c++17 -O3
 INCLUDE=./include
 
 THREADPOOL=./threadPool
