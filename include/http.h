@@ -13,6 +13,7 @@
 #include <map>
 class http
 {
+    using httpReturnType=std::pair<bool,std::string>;
 private:
     struct fileStruct
     {
@@ -32,14 +33,14 @@ private:
     std::thread sendThread;
     safeVector<fileStruct*> vec;
     std::map<int,std::pair<std::string,int>> uncompleted;
-    std::vector<std::future<int>> futures;
+    std::map<int,std::future<std::pair<bool,std::string>>> futureMap;
     std::mutex mutex;
     std::condition_variable consumer;
 public:
     http(httpHandler* handler,int maxThreads=4);
-    void doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> handleClose);
+    void doHttp(int sockfd,std::string httpRequest);
+    httpReturnType getResult(int sockfd,bool &result);
     void free(int sockfd);
-    void waitAll();
     ~http();
 };
 #endif

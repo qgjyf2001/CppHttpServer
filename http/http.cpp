@@ -49,21 +49,24 @@ void http::free(int sockfd)
 {
     if (uncompleted.find(sockfd)!=uncompleted.end())
         uncompleted.erase(sockfd);
+    if (futureMap.find(sockfd)!=futureMap.end())
+        futureMap.erase(sockfd);
 }
-void http::doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> handleClose)
+void http::doHttp(int sockfd,std::string httpRequest)
 {
-    auto res=pool->addThread([=](void *args){     
+    auto res=pool->addThread([=](void *args)->httpReturnType{    
+        httpReturnType httpResult; 
         signal(SIGPIPE , SIG_IGN);
         httpRequestType request;
-        if (uncompleted.find(*sockfd)!=uncompleted.end())
+        if (uncompleted.find(sockfd)!=uncompleted.end())
         {
-        if (auto &now=uncompleted[*sockfd];now.second!=0)
+        if (auto &now=uncompleted[sockfd];now.second!=0)
         {
                now.second-=httpRequest.length();
                if (now.second>0)
                {
                    now.first+=httpRequest;
-                   return 0;
+                   return std::make_pair(false,"");
                }
                 else
                 {
@@ -76,13 +79,10 @@ void http::doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> 
                     {
                         httpResponse resp=http400BasicResponse();
                         std::string badRequest=resp.toString();
-                        write(*sockfd,badRequest.c_str(),badRequest.length());
-                        if (!resp.getConnection())
-                            handleClose(sockfd);
-                        uncompleted.erase(*sockfd);
-                        return 0;
+                        uncompleted.erase(sockfd);
+                        return std::make_pair(!resp.getConnection(),std::move(badRequest));
                     }
-                    uncompleted.erase(*sockfd);
+                    uncompleted.erase(sockfd);
                 }
         }
     }
@@ -93,51 +93,55 @@ void http::doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> 
                 request=httpParser::parse(httpRequest);    
                 if (auto len1=std::atoi(request["Content-Length"].c_str()),len2=(int)request["text"].length();len1>len2)
                 {
-                    uncompleted[*sockfd]=std::make_pair(httpRequest,len1-len2);
-                    return 0;
+                    uncompleted[sockfd]=std::make_pair(httpRequest,len1-len2);
+                    return std::make_pair(false,"");
                 }
             }
             catch(const std::exception& e)
             {
                 httpResponse resp=http400BasicResponse();
                 std::string badRequest=resp.toString();
-                write(*sockfd,badRequest.c_str(),badRequest.length());
-                if (!resp.getConnection())
-                    handleClose(sockfd);
-                return 0;
+                httpResult.first=!resp.getConnection();
+                httpResult.second=std::move(resp.toString());
+                return httpResult;
             }
         }
         auto result=handler->handleRequest(request);
         auto responseText=result.toString();
-        int wrote=write(*sockfd,responseText.c_str(),responseText.length());
         if (result.fd!=-1)
         {
+            write(sockfd,responseText.c_str(),responseText.length());
             if (result.fileSize<sendLength)
             {
-                sendfile(*sockfd,result.fd,NULL,result.fileSize);
+                sendfile(sockfd,result.fd,NULL,result.fileSize);
                 close(result.fd);
             }
             else
             {
-                vec.push_back(new fileStruct(result.fd,*sockfd,result.fileSize,0));
+                vec.push_back(new fileStruct(result.fd,sockfd,result.fileSize,0));
                 if (vec.size()==1)
                 {
                     std::unique_lock<std::mutex> lck(mutex);
                     consumer.notify_one();
                 }
             }
+            return std::make_pair(false,"");
         }
-        if (!result.getConnection())
-            handleClose(sockfd);
-        return 0;
+        httpResult.first=!result.getConnection();
+        httpResult.second=std::move(responseText);
+        return httpResult;
     },&sockfd);
-    futures.push_back(std::move(res));
+    futureMap[sockfd]=std::move(res);
 }
-void http::waitAll()
-{
-    for (auto &fut:futures)
-        fut.get();
-    futures.clear();
+http::httpReturnType http::getResult(int sockfd,bool& result) {
+    if (futureMap.find(sockfd)==futureMap.end()) {
+        result=false;  
+        return http::httpReturnType();
+    }
+    result=true;
+    auto httpResult=futureMap[sockfd].get();
+    futureMap.erase(sockfd);
+    return httpResult;
 }
 http::~http()
 {

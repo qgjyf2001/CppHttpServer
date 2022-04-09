@@ -70,14 +70,9 @@ void ltServer::startForever()
                     continue;
                 }
                 fds.push_back(*sockfd);
-                httpServer.doHttp(sockfd,std::string(buf,n),[epollfd](int *sockfd){
-                    epoll_ctl(epollfd,EPOLL_CTL_DEL,*sockfd,0);
-                    close(*sockfd);
-                    *sockfd=-1;
-                });                  
+                httpServer.doHttp(*sockfd,std::string(buf,n));                  
             }
         } 
-        httpServer.waitAll();
         for (auto &&fd:fds)
         {
             epoll_event event;
