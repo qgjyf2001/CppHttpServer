@@ -32,6 +32,7 @@ private:
     std::thread sendThread;
     safeVector<fileStruct*> vec;
     std::map<int,std::pair<std::string,int>> uncompleted;
+    std::vector<std::future<int>> futures;
     std::mutex mutex;
     std::condition_variable consumer;
 public:

@@ -52,7 +52,7 @@ void http::free(int sockfd)
 }
 void http::doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> handleClose)
 {
-    pool->addThread([=](void *args){     
+    auto res=pool->addThread([=](void *args){     
         signal(SIGPIPE , SIG_IGN);
         httpRequestType request;
         if (uncompleted.find(*sockfd)!=uncompleted.end())
@@ -63,7 +63,7 @@ void http::doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> 
                if (now.second>0)
                {
                    now.first+=httpRequest;
-                   return;
+                   return 0;
                }
                 else
                 {
@@ -80,7 +80,7 @@ void http::doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> 
                         if (!resp.getConnection())
                             handleClose(sockfd);
                         uncompleted.erase(*sockfd);
-                        return;
+                        return 0;
                     }
                     uncompleted.erase(*sockfd);
                 }
@@ -94,7 +94,7 @@ void http::doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> 
                 if (auto len1=std::atoi(request["Content-Length"].c_str()),len2=(int)request["text"].length();len1>len2)
                 {
                     uncompleted[*sockfd]=std::make_pair(httpRequest,len1-len2);
-                    return;
+                    return 0;
                 }
             }
             catch(const std::exception& e)
@@ -104,7 +104,7 @@ void http::doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> 
                 write(*sockfd,badRequest.c_str(),badRequest.length());
                 if (!resp.getConnection())
                     handleClose(sockfd);
-                return;
+                return 0;
             }
         }
         auto result=handler->handleRequest(request);
@@ -129,11 +129,15 @@ void http::doHttp(int* sockfd,std::string httpRequest,std::function<void(int*)> 
         }
         if (!result.getConnection())
             handleClose(sockfd);
+        return 0;
     },&sockfd);
+    futures.push_back(std::move(res));
 }
 void http::waitAll()
 {
-    pool->waitAll();
+    for (auto &fut:futures)
+        fut.get();
+    futures.clear();
 }
 http::~http()
 {

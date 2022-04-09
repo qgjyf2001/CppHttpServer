@@ -1,5 +1,19 @@
-make --dry-run --keep-going --print-directory
+make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/home/qgjyf2001/work/CppHttpServer'
-make: Nothing to be done for 'all'.
+g++ -I./include -std=c++17 -O3 -c main.cpp -o main.o
+g++ -I./include -std=c++17 -O3 -c threadPool/threadPool.cpp -o threadPool/threadPool.o
+g++ -I./include -std=c++17 -O3 -c tcp/tcpServer.cpp -o tcp/tcpServer.o
+g++ -I./include -std=c++17 -O3 -c tcp/ltServer.cpp -o tcp/ltServer.o
+g++ -I./include -std=c++17 -O3 -c http/httpParser.cpp -o http/httpParser.o
+g++ -I./include -std=c++17 -O3 -c http/http.cpp -o http/http.o
+g++ -I./include -std=c++17 -O3 -c http/httpHandler.cpp -o http/httpHandler.o
+g++ -I./include -std=c++17 -O3 -c webServer/webServer.cpp -o webServer/webServer.o
+g++ -I./include -std=c++17 -O3 -c fileSystem/folderHook.cpp -o fileSystem/folderHook.o
+g++ -I./include -std=c++17 -O3 -c json/jsonParser.cpp -o json/jsonParser.o
+g++ -I./include -std=c++17 -O3 -c safeVector/safeVector.cpp -o safeVector/safeVector.o
+g++ -I./include -std=c++17 -O3 -c tools/zipFolder.cpp -o tools/zipFolder.o
+g++ -I./include -std=c++17 -O3 -c mysqlHelper/mysqlHelper.cpp -o mysqlHelper/mysqlHelper.o
+g++ -I./include -std=c++17 -O3 -c mysqlHelper/mysqlHelperImp.cpp -o mysqlHelper/mysqlHelperImp.o
+g++ -o main main.o threadPool/threadPool.o tcp/tcpServer.o tcp/ltServer.o http/httpParser.o http/http.o http/httpHandler.o webServer/webServer.o fileSystem/folderHook.o json/jsonParser.o safeVector/safeVector.o tools/zipFolder.o mysqlHelper/mysqlHelper.o mysqlHelper/mysqlHelperImp.o -lpthread -lminizip -lmysqlclient
 make: Leaving directory '/home/qgjyf2001/work/CppHttpServer'
  

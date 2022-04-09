@@ -59,6 +59,7 @@
         "typeinfo": "cpp",
         "map": "cpp",
         "cstring": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "future": "cpp"
     }
 }
