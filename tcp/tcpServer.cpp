@@ -71,6 +71,7 @@ void poolServer::startForever()
         else
         {
             char buf[MAXLINE];
+            std::vector<int> fds;
             for (int i=1;i<maxClient;i++)
             {
                 if (clientfd[i].fd<0)
@@ -86,9 +87,11 @@ void poolServer::startForever()
                         continue;
                     }
                     httpServer.doHttp(clientfd[i].fd,std::string(buf,n));           
+                    fds.push_back(i);
                        
                 }
-                if (clientfd[i].revents&POLLOUT) 
+            }
+                for (auto &i :fds)
                 {
                     bool result;
                     auto [status,content]=httpServer.getResult(clientfd[i].fd,result);
@@ -101,7 +104,6 @@ void poolServer::startForever()
                         clientfd[i].fd=-1;
                     }
                 }
-            }
         }
     }
     
