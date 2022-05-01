@@ -41,10 +41,13 @@ $(JSONPARSERTARGET):$(JSONPARSER)/jsonParser.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
 $(SAFEVECTORTARGET):$(SAFEVECTOR)/safeVector.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
+
+libCppServer.a:$(THREADPOOLTARGET) $(TCPTARGET) $(HTTPTARGET) $(WEBSERVERTARGET) $(FILESYSTEMTARGET) $(JSONPARSERTARGET) $(SAFEVECTORTARGET) $(TOOLSTARGET) $(SQLTARGET)
+	ar -crv $@ $^
 main.o:main.cpp
 	$(CC) -I$(INCLUDE) $(CXXFLAGS) -c $^ -o $@
-main:main.o $(THREADPOOLTARGET) $(TCPTARGET) $(HTTPTARGET) $(WEBSERVERTARGET) $(FILESYSTEMTARGET) $(JSONPARSERTARGET) $(SAFEVECTORTARGET) $(TOOLSTARGET) $(SQLTARGET)
-	$(CC) -o $@ $^ -lpthread -lminizip -lmysqlclient
+main:main.o libCppServer.a
+	$(CC) -o $@ main.o -L. -lCppServer -lpthread -lminizip -lmysqlclient
 web:
 	cd ./app&&yarn build
 clean:
