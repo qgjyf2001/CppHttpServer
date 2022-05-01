@@ -52,5 +52,6 @@ web:
 	cd ./app&&yarn build
 clean:
 	find . -name '*.o' -type f -print -exec rm -rf {} \;
+	rm libCppServer.a
 	rm main
 
