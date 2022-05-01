@@ -13,7 +13,7 @@ void ltServer::addfd(int epollfd,int fd,bool oneshot)
 {
     epoll_event event;
     event.data.fd=fd;
-    event.events=EPOLLIN;
+    event.events=EPOLLIN|EPOLLOUT;
     if (oneshot)
         event.events|=EPOLLONESHOT;
     epoll_ctl(epollfd,EPOLL_CTL_ADD,fd,&event);
@@ -51,8 +51,8 @@ void ltServer::startForever()
         std::vector<int> fds;
         for (int i=0;i<size;i++)
         {
-            int* sockfd=&events[i].data.fd;
-            if (*sockfd==listenfd)
+            int sockfd=events[i].data.fd;
+            if (sockfd==listenfd)
             {
                 socklen_t clientAddrLen=sizeof(clientaddr);
                 auto connfd=accept(listenfd,(sockaddr*)&clientaddr,&clientAddrLen);
@@ -61,23 +61,38 @@ void ltServer::startForever()
             else
             if (events[i].events&EPOLLIN)
             {
-                auto n=read(*sockfd,buf,MAXLINE);
+                auto n=read(sockfd,buf,MAXLINE);
                 if (n<=0)
                 {
-                    httpServer.free(*sockfd);
-                    epoll_ctl(epollfd,EPOLL_CTL_DEL,*sockfd,0);
-                    close(*sockfd);
+                    httpServer.free(sockfd);
+                    epoll_ctl(epollfd,EPOLL_CTL_DEL,sockfd,0);
+                    close(sockfd);
                     continue;
                 }
-                fds.push_back(*sockfd);
-                httpServer.doHttp(*sockfd,std::string(buf,n));                  
+                fds.push_back(sockfd);
+                httpServer.doHttp(sockfd,std::string(buf,n));                  
+            }
+            if (events[i].events&EPOLLOUT) 
+            {
+                bool result;
+                auto [status,content]=httpServer.getResult(sockfd,result);
+                if (!content.empty()) {
+                    int wrote=write(sockfd,content.c_str(),content.length());
+                }
+                if (status) {
+                    httpServer.free(epollfd);
+                    epoll_ctl(epollfd,EPOLL_CTL_DEL,sockfd,0);
+                    close(epollfd);
+                }
+                else 
+                    fds.push_back(sockfd);
             }
         } 
         for (auto &&fd:fds)
         {
             epoll_event event;
             event.data.fd=fd;
-            event.events=EPOLLIN|EPOLLONESHOT;
+            event.events=EPOLLIN|EPOLLONESHOT|EPOLLOUT;
             epoll_ctl(epollfd,EPOLL_CTL_MOD,fd,&event);
         }
     }
