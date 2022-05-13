@@ -139,7 +139,11 @@ http::httpReturnType http::getResult(int sockfd,bool& result) {
         return http::httpReturnType();
     }
     result=true;
-    auto httpResult=futureMap[sockfd].get();
+    auto &future=futureMap[sockfd];
+    if (future.wait_for(std::chrono::duration(std::chrono::seconds(0)))==std::future_status::timeout) {
+        return http::httpReturnType(false,"");
+    }
+    auto httpResult=future.get();
     futureMap.erase(sockfd);
     return httpResult;
 }
